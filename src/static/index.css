@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Mina', sans-serif;
+    font-size:24px
+}
+
+header{
+    display:flex;
+    flex-direction: row ;
+    justify-content: space-between;
+    background-color: rgb(103,182,249);
+    padding: 0px 20px 0px 20px
+    
+}
+
+#productForm{
+    display:flex;
+    justify-content: center
+}
+#searchBar{
+    height:30px; 
+    margin:25px;
+    width:100%;
+    
+}
+
+#productContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    margin:5px;
+}
+
+@media (max-width: 430px) {
+    #productContainer > div{
+        width: 48%;
+    }
+}
+
+@media(min-width: 431px){
+    #productContainer > div{
+        width:30%;
+    }
+}
