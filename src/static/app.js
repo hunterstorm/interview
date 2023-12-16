@@ -12,7 +12,7 @@ async function setup() {
         const data = await response.json();
         console.log('Data from the response:', data);
 
-        const sortedProducts = sortProducts(data);
+        sortedProducts = sortProducts(data);
 		updateContainer(sortedProducts)
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -20,55 +20,60 @@ async function setup() {
 }
 
 // quicksort recursion alg for product sorting
-function sortProducts(products) {
+// function sortProducts(products) {
 
-    function sortLowToHigh(products) {
-        if (products.length <= 1) {
-            return products;
-        }
+//     function sortLowToHigh(products) {
+//         if (products.length <= 1) {
+//             return products;
+//         }
 
-        const pivot = products[0];
-        const left = [];
-        const right = [];
+//         const pivot = products[0];
+//         const left = [];
+//         const right = [];
 
-        for (let i=1; i<products.length; i++) {
-            if (products[i].price < pivot.price) {
-                left.push(products[i]);
-            } else {
-                right.push(products[i]);
-            }
-        }
+//         for (let i=1; i<products.length; i++) {
+//             if (products[i].price < pivot.price) {
+//                 left.push(products[i]);
+//             } else {
+//                 right.push(products[i]);
+//             }
+//         }
 
-        return sortLowToHigh(left).concat(pivot, sortLowToHigh(right));
-    }
+//         return sortLowToHigh(left).concat(pivot, sortLowToHigh(right));
+//     }
 
-    sortedProducts = sortLowToHigh([...products]);
+//     sortedProducts = sortLowToHigh([...products]);
     
-    return sortedProducts
+//     return sortedProducts
+// }
+
+function sortProducts(products) {
+    return products.sort((a, b) => a.price - b.price);
 }
 
+
 // DOM container
-function updateContainer(sortedProducts) {
+function updateContainer(products) {
     const productContainer = document.getElementById('productContainer');
     productContainer.innerHTML = '';
 
-    for (let i = 0; i < sortedProducts.length; i++) {
+    for ( const product of products) {
         const productElement = document.createElement('div');
-        productElement.style = 'display: flex; flex-direction: column; align-items: center; text-align: left;';
+        productElement.classList.add('productElement');
 
         const imageContainer = document.createElement('img');
-        imageContainer.src = `${sortedProducts[i].images[0].src}`;
-        imageContainer.style = 'width: 200px;';
+        imageContainer.src = `${product.images[0].src}`;
+        imageContainer.classList.add('imageContainer');
 
         const textContainer = document.createElement('div');
-        textContainer.style = 'text-align: left; width: 100px';
+        textContainer.classList.add('productTextContainer');
 
         const title = document.createElement('p');
-        title.innerHTML = sortedProducts[i].title;
+        title.innerHTML = product.title;
 
         const price = document.createElement('p');
-        price.innerHTML = `$${sortedProducts[i].price / 100}`;
-		price.style = 'font-size: 18px';
+        price.innerHTML = `$${product.price / 100}`;
+        price.classList.add('productPrice');
 
         textContainer.appendChild(title);
         textContainer.appendChild(price);
