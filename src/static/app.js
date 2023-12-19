@@ -4,7 +4,6 @@ let sortedProducts
 
 //product fetch
 async function setup() {
-    console.log('Setup function is called again!');
 
     try {
         const response = await fetch('/products');
@@ -14,6 +13,7 @@ async function setup() {
 
         sortedProducts = sortProducts(data);
 		updateContainer(sortedProducts)
+        console.log(sortedProducts)
     } catch (error) {
         console.error('Error fetching products:', error);
     }
@@ -57,29 +57,19 @@ function updateContainer(products) {
     const productContainer = document.getElementById('productContainer');
     productContainer.innerHTML = '';
 
+    const productTemplate = document.getElementById('productTemplate');
+
     for ( const product of products) {
-        const productElement = document.createElement('div');
-        productElement.classList.add('productElement');
+        const productElement = document.importNode(productTemplate.content, true);
 
-        const imageContainer = document.createElement('img');
+        const imageContainer = productElement.querySelector('.imageContainer');
         imageContainer.src = `${product.images[0].src}`;
-        imageContainer.classList.add('imageContainer');
 
-        const textContainer = document.createElement('div');
-        textContainer.classList.add('productTextContainer');
-
-        const title = document.createElement('p');
+        const title = productElement.querySelector('.productTitle');
         title.innerHTML = product.title;
 
-        const price = document.createElement('p');
+        const price = productElement.querySelector('.productPrice');
         price.innerHTML = `$${product.price / 100}`;
-        price.classList.add('productPrice');
-
-        textContainer.appendChild(title);
-        textContainer.appendChild(price);
-
-        productElement.appendChild(imageContainer);
-        productElement.appendChild(textContainer);
 
         productContainer.appendChild(productElement);
     }
